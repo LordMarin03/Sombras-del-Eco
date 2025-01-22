@@ -18,3 +18,44 @@ Te guía, pero a medida que progresas, sus palabras se tornan más exigentes y a
 
 ### 3. El Ciclo de Olvido
 El mundo está atrapado en un ciclo eterno: cada vez que el Eco se completa, todo vuelve al olvido. Tú puedes romper este ciclo, pero a un gran coste.
+
+# MI MISIÓN
+
+La voz que te guía, conocida simplemente como **El Susurro**, te encamina hacia una misión ambigua: recolectar los fragmentos del Eco y completar el artefacto. El Susurro afirma que hacerlo es la única manera de restaurar el equilibrio de Thalhym, pero sus verdaderas intenciones son un misterio.
+
+A lo largo de tu viaje, te enfrentarás a decisiones que moldean tu destino y el del mundo:
+
+### Liberar las Sombras Vacías
+Usar el poder del Eco para devolver la memoria a las almas atrapadas. Esto podría significar restaurar el equilibrio, pero también reavivar los pecados del pasado.
+
+### Sellar el Eco
+Detener su influencia para siempre, condenando al mundo a un estado de calma artificial y olvido eterno.
+
+### Convertirte en el Eco
+Usar el artefacto para absorber el poder de los dioses caídos y ascender como una nueva deidad.
+
+---
+
+## Tu Rol: El Portador y las Decisiones Clave
+
+Tu viaje está marcado por decisiones que afectan la narrativa y el final del juego:
+
+### ¿Liberar o Consumir Fragmentos?
+Cada fragmento que recuperas contiene la esencia de un guardián. Puedes purificarlo para devolver su memoria (dándole descanso) o consumirlo para incrementar tu poder.
+
+**Consecuencia:**
+- Liberar fragmentos te acerca al final "bueno".
+- Consumirlos te lleva hacia un final más oscuro.
+
+### ¿Seguir al Susurro o Rebelarte?
+Al final, puedes obedecer al Susurro y completar el Eco como él quiere, o enfrentarlo en un combate final.
+
+**Consecuencia:**
+- Obedecer al Susurro puede restaurar el ciclo o transformarte en un dios.
+- Rebelarte podría destruir el Eco, pero a costa de tu propia existencia.
+
+---
+
+## El Final Oculto
+
+Solo accesible si recolectas ciertos ítems y completas misiones opcionales. Permite un desenlace alternativo donde eliges convertirte en el nuevo equilibrio del mundo, fusionándote con el Eco para romper el ciclo de olvido.
