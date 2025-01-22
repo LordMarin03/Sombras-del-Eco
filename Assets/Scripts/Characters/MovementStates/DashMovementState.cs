@@ -29,7 +29,7 @@ namespace Eco
 
             m_Character.RootTransform.position += horizontalMovement * m_Settings.DashDistance * Vector3.right;
 
-            m_ReturnToIdleTimer.Start(2.0f);
+            m_ReturnToIdleTimer.Start(0.2f);
         }
 
         public override void OnExit()
@@ -39,9 +39,21 @@ namespace Eco
 
         public override void OnUpdate()
         {
+            InputManager input = Services.GetService<InputManager>();
+            float horizontalInput = input.HorizontalMovement();
+
+            // Si el temporizador ha terminado
             if (m_ReturnToIdleTimer.StopIfElapsed())
             {
-                m_Character.ChangeMovementState(BaseCharacter.GenericMovementStates.Idle);
+                // Si hay entrada horizontal, cambiar a movimiento horizontal
+                if (Mathf.Abs(horizontalInput) > 0.1f)
+                {
+                    m_Character.ChangeMovementState(BaseCharacter.GenericMovementStates.Horizontal);
+                }
+                else // Si no hay entrada, volver a Idle
+                {
+                    m_Character.ChangeMovementState(BaseCharacter.GenericMovementStates.Idle);
+                }
             }
         }
     }

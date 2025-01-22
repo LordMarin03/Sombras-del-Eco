@@ -24,6 +24,17 @@ namespace Eco
 
         public override void OnUpdate()
         {
+            InputManager input = Services.GetService<InputManager>();
+            float horizontalInput = input.HorizontalMovement();
+
+            // Si hay entrada horizontal, cambiar al estado de movimiento horizontal
+            if (Mathf.Abs(horizontalInput) > 0.1f)
+            {
+                m_Character.ChangeMovementState(BaseCharacter.GenericMovementStates.Horizontal);
+                return;
+            }
+
+            // Si el temporizador ha terminado y no hay movimiento horizontal, volver a Idle
             if (m_ReturnToIdleTimer.StopIfElapsed())
             {
                 m_Character.ChangeMovementState(BaseCharacter.GenericMovementStates.Idle);

@@ -28,6 +28,7 @@ namespace Eco
             Run = 11,
             Jump = 15,
             Dash = 20,
+            Horizontal = 30,
 
             Attack = 50
         }
