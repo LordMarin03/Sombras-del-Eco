@@ -1,6 +1,7 @@
-# Sombras-del-Eco
+# Sombras-del-Eco 
 
-# Contexto del Mundo: Thalhym, la Tierra del Olvido
+# Contexto del Mundo: Thalhym, la Tierra del Olvido! [DALL_E-2025-01-22-17 24-removebg-preview](https://github.com/user-attachments/assets/62a04aff-6871-4940-8228-344631d86359)
+
 
 Hace eones, Thalhym fue una tierra floreciente gobernada por una raza de dioses conocidos como **los Hijos del Vacío**. Estos seres venerados trajeron prosperidad, pero también sembraron discordia entre los mortales. Ante el caos generado por guerras, traiciones y ambición, los Hijos del Vacío forjaron una reliquia prohibida llamada **El Eco del Olvido**.
 
