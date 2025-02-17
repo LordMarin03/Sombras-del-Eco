@@ -384,6 +384,22 @@ PrefabInstance:
       propertyPath: m_HorizontalSettings
       value: 
       objectReference: {fileID: 112145241}
+    - target: {fileID: 4581457142046324974, guid: c646a9643fdb6264c84cbfbb39a2f70a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1773380235, guid: 2678c5e99a7d4a44dbc086c52c6ee654, type: 3}
+    - target: {fileID: 6733296592616626862, guid: c646a9643fdb6264c84cbfbb39a2f70a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6733296592616626862, guid: c646a9643fdb6264c84cbfbb39a2f70a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6733296592616626862, guid: c646a9643fdb6264c84cbfbb39a2f70a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7043840844607273276, guid: c646a9643fdb6264c84cbfbb39a2f70a, type: 3}
       propertyPath: m_JumpDistance
       value: 1

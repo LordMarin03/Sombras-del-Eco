@@ -19,7 +19,7 @@ namespace Eco
 
             m_Character.PlayAnimation("Jump");
 
-            m_ReturnToIdleTimer.Start(2.0f);
+            m_ReturnToIdleTimer.Start(1.0f);
         }
 
         public override void OnUpdate()

@@ -29,7 +29,9 @@ namespace Eco
 
             m_Character.RootTransform.position += horizontalMovement * m_Settings.DashDistance * Vector3.right;
 
-            m_ReturnToIdleTimer.Start(0.2f);
+            m_Character.PlayAnimation("Dash");
+
+            m_ReturnToIdleTimer.Start(0.5f);
         }
 
         public override void OnExit()
