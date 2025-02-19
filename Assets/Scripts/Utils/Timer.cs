@@ -27,12 +27,6 @@ namespace Eco
 
                 m_RemainingTimeOnPause = 0;
             }
-#if UNITY_EDITOR
-            else
-            {
-                Debug.LogWarning($"Trying to start a timer that was already started");
-            }
-#endif // UNITY_EDITOR
         }
 
         public void Pause()
@@ -46,12 +40,6 @@ namespace Eco
 
                 m_FinalTime = 0;
             }
-#if UNITY_EDITOR
-            else
-            {
-                Debug.LogWarning($"Trying to pause a timer that was not started");
-            }
-#endif // UNITY_EDITOR
         }
 
         public void Resume()
@@ -65,12 +53,6 @@ namespace Eco
 
                 m_RemainingTimeOnPause = 0;
             }
-#if UNITY_EDITOR
-            else
-            {
-                Debug.LogWarning($"Trying to resume a timer that was not paused");
-            }
-#endif // UNITY_EDITOR
         }
 
         public void Stop()
@@ -84,12 +66,6 @@ namespace Eco
 
                 m_RemainingTimeOnPause = 0;
             }
-#if UNITY_EDITOR
-            else
-            {
-                Debug.LogWarning($"Trying to stop a timer that was not started");
-            }
-#endif // UNITY_EDITOR
         }
 
         public bool IsElapsed()

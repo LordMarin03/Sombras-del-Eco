@@ -10,6 +10,9 @@ namespace Eco
         protected float m_DeltaTime;
         public float DeltaTime { get => m_DeltaTime; }
 
+        protected float m_FixedDeltaTime;
+        public float FixedDeltaTime { get => m_FixedDeltaTime; }
+
         protected void Awake()
         {
             GameObject.DontDestroyOnLoad(this);
@@ -22,6 +25,11 @@ namespace Eco
             m_Time = UnityEngine.Time.time;
 
             m_DeltaTime = UnityEngine.Time.deltaTime;
+        }
+
+        protected void FixedUpdate()
+        {
+            m_FixedDeltaTime = UnityEngine.Time.fixedDeltaTime;
         }
     }
 }

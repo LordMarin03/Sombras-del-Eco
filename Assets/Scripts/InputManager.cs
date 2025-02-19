@@ -4,36 +4,33 @@ namespace Eco
 {
     public class InputManager : MonoBehaviour
     {
+
+        protected float m_HorizontalInput;
+        public float HorizontalInput {  get => m_HorizontalInput; }
+
+        protected float m_VerticalInput;
+        public float VerticalInput { get => m_VerticalInput; }
+
+        protected bool m_JumpDown;
+        public bool JumpDown { get => m_JumpDown; }
+
+        protected bool m_JumpHeld;
+        public bool JumpHeld { get => m_JumpHeld; }
+
+
+
         protected void Awake()
         {
             Services.RegisterService(this);
         }
 
-        public bool JumpPressed()
+        protected void Update()
         {
-            return Input.GetKeyDown(KeyCode.Space);
-        }
+            m_HorizontalInput = Input.GetAxis("Horizontal");
+            m_VerticalInput = Input.GetAxis("Vertical");
 
-        public bool DashPressed()
-        {
-            return Input.GetKeyDown(KeyCode.LeftShift);
-        }
-
-        public float HorizontalMovement()
-        {
-            float horizontalMovement = 0.0f;
-
-            if (Input.GetKey(KeyCode.D))
-            {
-                horizontalMovement += 1.0f;
-            }
-
-            if (Input.GetKey(KeyCode.A))
-            {
-                horizontalMovement -= 1.0f;
-            }
-
-            return horizontalMovement;
+            m_JumpDown = Input.GetButtonDown("Jump");
+            m_JumpHeld = Input.GetButton("Jump");
         }
     }
 }
