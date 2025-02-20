@@ -41,3 +41,33 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: 1Backgound
+    uniqueID: 3523972039
+    locked: 0
+  - name: 2Background
+    uniqueID: 3908599297
+    locked: 0
+  - name: 3Fons
+    uniqueID: 2116933381
+    locked: 0
+  - name: 4CosesDavant
+    uniqueID: 2428909125
+    locked: 0
+  - name: 5Foreground
+    uniqueID: 3807754811
+    locked: 0
+  - name: BackGround
+    uniqueID: 299474741
+    locked: 0
+  - name: Player
+    uniqueID: 2118640905
+    locked: 0
+  - name: ForeGround
+    uniqueID: 3444994415
+    locked: 0
+  - name: 6UltraForeGround
+    uniqueID: 3530432587
+    locked: 0
+  - name: UltraForeGround
+    uniqueID: 955134239
+    locked: 0
