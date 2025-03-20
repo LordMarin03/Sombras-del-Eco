@@ -8,7 +8,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Enemies
   - Water
   - UI
   - 
@@ -70,4 +70,7 @@ TagManager:
     locked: 0
   - name: UltraForeGround
     uniqueID: 955134239
+    locked: 0
+  - name: Enemies
+    uniqueID: 1901914377
     locked: 0

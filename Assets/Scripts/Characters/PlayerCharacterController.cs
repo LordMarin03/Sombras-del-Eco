@@ -23,10 +23,40 @@ namespace Exo
         protected bool m_Grounded;
         protected Vector2 m_Velocity;
 
+        [SerializeField] private int maxHealth = 150;
+        private int currentHealth;
+
+        [SerializeField] private HealthBar healthBar;
 
         protected void Awake()
         {
             m_PreviousQueriesStartInColliders = Physics2D.queriesStartInColliders;
+            currentHealth = maxHealth;
+        }
+        protected void Start()
+        {
+            currentHealth = maxHealth;
+            healthBar.SetMaxHealth(maxHealth);
+        }
+
+
+        public void TakeDamage(int damage)
+        {
+            currentHealth -= damage;
+            healthBar.SetHealth(currentHealth);
+            Debug.Log("Jugador recibió daño: " + damage + ". Vida restante: " + currentHealth);
+
+            if (currentHealth <= 0)
+            {
+                Die();
+            }
+        }
+
+
+        private void Die()
+        {
+            Debug.Log("Jugador ha muerto");
+            // Aquí puedes agregar lógica de respawn o reinicio de nivel
         }
 
         protected void Update()
@@ -44,12 +74,9 @@ namespace Exo
             float fixedDeltaTime = Services.GetService<MainManager>().FixedDeltaTime;
 
             CheckCollisions();
-
-
             HandleJump();
             HandleDirection(fixedDeltaTime);
             HandleGravity(fixedDeltaTime);
-
             ApplyMovement();
         }
 
@@ -59,7 +86,6 @@ namespace Exo
             if (inputManager != null)
             {
                 m_HorizontalInput = inputManager.HorizontalInput;
-
                 m_JumpDown = inputManager.JumpDown;
                 m_JumpHeld = inputManager.JumpHeld;
 
@@ -78,7 +104,6 @@ namespace Exo
                 if (m_JumpDown)
                 {
                     m_WantsToJump = true;
-
                     m_JumpBufferTimer.Stop();
                     m_JumpBufferTimer.Start(m_BaseStats.JumpBuffer);
                 }
@@ -90,35 +115,30 @@ namespace Exo
             Physics2D.queriesStartInColliders = false;
 
             bool groundHit = Physics2D.CapsuleCast(m_CapsuleCollider.bounds.center, m_CapsuleCollider.size, m_CapsuleCollider.direction, 0, Vector2.down, m_BaseStats.GrounderDistance, ~m_BaseStats.CharacterLayer);
-
             bool ceilingHit = Physics2D.CapsuleCast(m_CapsuleCollider.bounds.center, m_CapsuleCollider.size, m_CapsuleCollider.direction, 0, Vector2.up, m_BaseStats.GrounderDistance, ~m_BaseStats.CharacterLayer);
 
-            if(ceilingHit)
+            if (ceilingHit)
             {
                 m_Velocity.y = Mathf.Min(0, m_Velocity.y);
             }
 
-            // Estem tocant el terra
-            if (!m_Grounded && groundHit) 
+            if (!m_Grounded && groundHit)
             {
-                //No estava tocant el terra pero ara si
                 m_Grounded = true;
-
                 m_JumpWasCanceled = false;
                 m_DoubleJumped = false;
                 m_CoyoteTimeTimer.Stop();
             }
             else if (m_Grounded && !groundHit)
             {
-                //Estava tocant el terra pero ara no
                 m_Grounded = false;
-
                 m_CoyoteTimeTimer.Stop();
                 m_CoyoteTimeTimer.Start(m_BaseStats.CoyoteTime);
             }
 
             Physics2D.queriesStartInColliders = m_PreviousQueriesStartInColliders;
         }
+
         protected void HandleJump()
         {
             if ((m_Grounded || (m_CoyoteTimeTimer.IsStarted() && !m_CoyoteTimeTimer.IsElapsed())) && m_WantsToJump)
@@ -132,7 +152,6 @@ namespace Exo
             else if (!m_Grounded && m_WantsToJump && !m_DoubleJumped)
             {
                 m_DoubleJumped = true;
-
                 Jump(m_BaseStats.DoubleJumpPower);
             }
         }
@@ -140,7 +159,6 @@ namespace Exo
         protected void Jump(float aJumpPower)
         {
             m_Velocity.y = aJumpPower;
-
             m_WantsToJump = false;
             m_Grounded = false;
         }
@@ -154,35 +172,20 @@ namespace Exo
             }
             else
             {
-                float deceleration = 0.0f;
-                if (m_Grounded)
-                {
-                    deceleration = m_BaseStats.GroundDeceleration;
-                }
-                else
-                {
-                    deceleration = m_BaseStats.AirDeceleration;
-                }
-
+                float deceleration = m_Grounded ? m_BaseStats.GroundDeceleration : m_BaseStats.AirDeceleration;
                 m_Velocity.x = Mathf.Lerp(m_Velocity.x, 0, deceleration * aFixedDeltaTime);
             }
         }
 
-
         protected void HandleGravity(float aFixedDeltaTime)
         {
-            if(m_Grounded && m_Velocity.y <= 0.0f)
+            if (m_Grounded && m_Velocity.y <= 0.0f)
             {
                 m_Velocity.y = m_BaseStats.GroundingForce;
             }
             else
             {
-                float inAirGravity = m_BaseStats.FallAcceleration;
-                if (m_JumpWasCanceled && m_Velocity.y > 0)
-                {
-                    inAirGravity = inAirGravity * m_BaseStats.JumpEndEarlyGravityModifier;
-                }
-
+                float inAirGravity = m_JumpWasCanceled && m_Velocity.y > 0 ? m_BaseStats.FallAcceleration * m_BaseStats.JumpEndEarlyGravityModifier : m_BaseStats.FallAcceleration;
                 m_Velocity.y = Mathf.Lerp(m_Velocity.y, -m_BaseStats.MaxFallSpeed, inAirGravity * aFixedDeltaTime);
             }
         }
@@ -193,5 +196,3 @@ namespace Exo
         }
     }
 }
-
-
