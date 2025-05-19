@@ -6,19 +6,17 @@ namespace Eco
 {
     public class MainMenuUI : MonoBehaviour
     {
-        public GameObject settingsPanel;
         public GameObject mainButtons;
+        public GameObject settingsPanel;
 
-        public void OpenSettings()
-        {
-            settingsPanel.SetActive(true);
-            mainButtons.SetActive(false);
-        }
+        // Subpaneles dentro del menú de ajustes
+        public GameObject panelGraficos;
+        public GameObject panelAudio;
+        public GameObject panelControles;
 
-        public void BackToMenu()
+        public void PlayGame()
         {
-            settingsPanel.SetActive(false);
-            mainButtons.SetActive(true);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
         }
 
         public void QuitGame()
@@ -26,9 +24,21 @@ namespace Eco
             Application.Quit();
         }
 
-        public void PlayGame()
+        public void OpenSettings()
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
+            mainButtons.SetActive(false);
+            settingsPanel.SetActive(true);
+
+            // Mostrar solo el panel de gráficos al entrar
+            panelGraficos.SetActive(true);
+            panelAudio.SetActive(false);
+            panelControles.SetActive(false);
+        }
+
+        public void BackToMainMenu()
+        {
+            settingsPanel.SetActive(false);
+            mainButtons.SetActive(true);
         }
     }
 }
