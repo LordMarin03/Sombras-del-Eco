@@ -1,28 +1,37 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System.Collections.Generic;
 
 namespace Eco
 {
     public class InventorySystem : MonoBehaviour
     {
-        public Sprite[] itemSprites;
         public Transform inventoryGrid;
 
-        void Start()
+        public void UpdateInventoryDisplay(List<InventoryItem> items)
         {
             for (int i = 0; i < inventoryGrid.childCount; i++)
             {
                 Transform slot = inventoryGrid.GetChild(i);
-                Image itemIcon = slot.Find("ItemIcon").GetComponent<Image>();
+                Image itemIcon = slot.Find("ItemIcon")?.GetComponent<Image>();
+                TextMeshProUGUI nameText = slot.Find("ItemNameText")?.GetComponent<TextMeshProUGUI>();
 
-                if (i < itemSprites.Length)
+                if (itemIcon == null || nameText == null)
+                    continue;
+
+                if (i < items.Count && items[i] != null)
                 {
-                    itemIcon.sprite = itemSprites[i];
+                    itemIcon.sprite = items[i].icon;
                     itemIcon.enabled = true;
+                    nameText.text = items[i].itemName;
+                    nameText.enabled = true;
                 }
                 else
                 {
                     itemIcon.enabled = false;
+                    nameText.text = "";
+                    nameText.enabled = false;
                 }
             }
         }

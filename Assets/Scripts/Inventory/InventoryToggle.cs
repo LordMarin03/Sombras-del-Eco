@@ -22,7 +22,7 @@ namespace Eco
                 ToggleInventory();
             }
 
-            if (Input.GetKeyDown(KeyCode.Escape) && isOpen)
+            if (isOpen && Input.GetKeyDown(KeyCode.Escape))
             {
                 ToggleInventory();
             }
@@ -33,7 +33,20 @@ namespace Eco
             isOpen = !isOpen;
 
             if (inventoryPanel != null)
+            {
                 inventoryPanel.SetActive(isOpen);
+
+             
+                if (isOpen)
+                {
+                    var inv = InventoryManager.Instance;
+                    if (inv != null && inv.uiInventory != null)
+                    {
+                        inv.uiInventory.UpdateInventoryDisplay(inv.playerInventory);
+                        Debug.Log("INVENTARIO ACTUALIZADO. Cantidad de ítems: " + inv.playerInventory.Count);
+                    }
+                }
+            }
 
             if (hudPanel != null)
                 hudPanel.SetActive(!isOpen);
