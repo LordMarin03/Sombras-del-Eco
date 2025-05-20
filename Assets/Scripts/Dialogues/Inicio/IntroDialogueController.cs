@@ -1,4 +1,4 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -13,22 +13,25 @@ namespace Eco
         public CanvasGroup dialogueCanvas;
         public TextMeshProUGUI dialogueText;
 
-        [Header("Efecto m·quina de escribir")]
+        [Header("Efecto m√°quina de escribir")]
         public float typingSpeed = 0.02f;
         public float autoAdvanceDelay = 2.5f;
         public AudioSource typeSound;
 
-        [Header("LÌneas de di·logo")]
+        [Header("L√≠neas de di√°logo")]
         [TextArea(3, 6)]
         public string[] lines = new string[]
         {
-        "Silencio... otra vez ese ecoÖ dentro de mÌ.",
-        "No sÈ quiÈn fui. No sÈ quÈ soy.",
-        "Pero algo... algo me llama desde las sombras.",
-        "El Susurro dice que debo avanzar. Que hay algo m·s all·Ö",
-        "...aunque cada paso que doy, siento que me alejo de mÌ mismo.",
-        "Sea redenciÛn o condenaÖ no pienso detenerme."
+            "Silencio... otra vez ese eco‚Ä¶ dentro de m√≠.",
+            "No s√© qui√©n fui. No s√© qu√© soy.",
+            "Pero algo... algo me llama desde las sombras.",
+            "El Susurro dice que debo avanzar. Que hay algo m√°s all√°‚Ä¶",
+            "...aunque cada paso que doy, siento que me alejo de m√≠ mismo.",
+            "Sea redenci√≥n o condena‚Ä¶ no pienso detenerme."
         };
+
+        [Header("Referencias externas")]
+        public GameObject hudCanvas;
 
         private int currentLine = 0;
         private bool isTyping = false;
@@ -42,6 +45,9 @@ namespace Eco
 
             dialogueCanvas.alpha = 1f;
             dialogueCanvas.blocksRaycasts = true;
+
+            if (hudCanvas != null)
+                hudCanvas.SetActive(false); // ‚ùó Ocultar HUD al empezar
 
             StartCoroutine(TypeLine());
         }
@@ -91,6 +97,9 @@ namespace Eco
 
             if (player != null)
                 player.enabled = true;
+
+            if (hudCanvas != null)
+                hudCanvas.SetActive(true); // ‚úÖ Activamos HUD al terminar
 
             gameObject.SetActive(false);
         }
