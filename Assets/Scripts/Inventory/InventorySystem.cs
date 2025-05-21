@@ -17,14 +17,17 @@ namespace Eco
                 Image itemIcon = slot.Find("ItemIcon")?.GetComponent<Image>();
                 TextMeshProUGUI nameText = slot.Find("ItemNameText")?.GetComponent<TextMeshProUGUI>();
 
-                if (itemIcon == null || nameText == null)
-                    continue;
+                if (itemIcon == null || nameText == null) continue;
 
                 if (i < items.Count && items[i] != null)
                 {
                     itemIcon.sprite = items[i].icon;
                     itemIcon.enabled = true;
-                    nameText.text = items[i].itemName;
+
+                    nameText.text = items[i].stackCount > 1 ?
+                        items[i].itemName + " x" + items[i].stackCount :
+                        items[i].itemName + " x" + items[i].stackCount;
+
                     nameText.enabled = true;
                 }
                 else

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Eco
@@ -7,80 +7,69 @@ namespace Eco
     {
         public static InventoryManager Instance;
 
-        [Header("Inventario del jugador")]
         public List<InventoryItem> playerInventory = new List<InventoryItem>();
-
-        [Header("UI del inventario")]
         public InventorySystem uiInventory;
 
         private void Awake()
         {
             if (Instance == null)
-            {
                 Instance = this;
-                // DontDestroyOnLoad(gameObject); // si quieres que persista
-            }
             else
-            {
                 Destroy(gameObject);
-            }
-        }
-
-        private void Start()
-        {
-            if (uiInventory != null)
-                uiInventory.UpdateInventoryDisplay(playerInventory);
         }
 
         public void AddItem(InventoryItem item)
         {
             if (item == null)
             {
-                Debug.LogWarning("Intentando añadir un ítem nulo.");
+                Debug.LogWarning("Intentando aÃ±adir un Ã­tem nulo.");
                 return;
             }
 
-            playerInventory.Add(item);
-            Debug.Log("Objeto recogido: " + item.itemName);
+            foreach (var existingItem in playerInventory)
+            {
+                if (existingItem.itemName == item.itemName && item.isConsumable)
+                {
+                    existingItem.stackCount++;
+                    uiInventory.UpdateInventoryDisplay(playerInventory);
+                    EquippedHUD.Instance?.AssignToHUDSlot(GetItemByName(item.itemName));
+                    return;
+                }
+            }
 
-            if (uiInventory != null)
-                uiInventory.UpdateInventoryDisplay(playerInventory);
+            item.stackCount = 1;
+            playerInventory.Add(item);
+            uiInventory.UpdateInventoryDisplay(playerInventory);
 
             switch (item.itemType)
             {
                 case ItemType.Weapon:
-                    if (EquipmentManager.Instance != null)
-                        EquipmentManager.Instance.Equip(item);
-
-                    if (EquippedHUD.Instance != null)
-                        EquippedHUD.Instance.EquipWeapon(item);
+                    EquipmentManager.Instance?.Equip(item);
+                    EquippedHUD.Instance?.EquipWeapon(item);
                     break;
-
                 case ItemType.Consumable:
                 case ItemType.Special:
-                    if (EquippedHUD.Instance != null)
-                        EquippedHUD.Instance.AssignToHUDSlot(item);
+                    EquippedHUD.Instance?.AssignToHUDSlot(item);
                     break;
             }
         }
 
         public void UseItem(int index)
         {
-            if (index < 0 || index >= playerInventory.Count)
-            {
-                Debug.LogWarning("Índice inválido al usar ítem.");
-                return;
-            }
+            if (index < 0 || index >= playerInventory.Count) return;
 
             InventoryItem item = playerInventory[index];
-            Debug.Log("Usaste: " + item.itemName);
-
-            if (item.isConsumable)
+            if (item.isConsumable && item.stackCount > 0)
             {
-                playerInventory.RemoveAt(index);
-                if (uiInventory != null)
-                    uiInventory.UpdateInventoryDisplay(playerInventory);
+                item.stackCount--;
+                EquippedHUD.Instance?.UpdateLeftSlotCount();
+                uiInventory.UpdateInventoryDisplay(playerInventory);
             }
+        }
+
+        public InventoryItem GetItemByName(string name)
+        {
+            return playerInventory.Find(i => i.itemName == name);
         }
     }
 }

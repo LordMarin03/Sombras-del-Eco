@@ -59,34 +59,56 @@ namespace Eco
                     break;
 
                 case InventoryState.ViewingDetails:
+
+                    if (Input.GetKeyDown(KeyCode.C)) // Consumir ítem
+                    {
+                        Debug.Log("Tecla C pulsada para consumir.");
+                        if (IsValidIndex(currentIndex))
+                        {
+                            InventoryItem item = InventoryManager.Instance.playerInventory[currentIndex];
+                            Debug.Log("Ítem seleccionado: " + item.itemName + " | Consumible: " + item.isConsumable);
+
+                            if (item.isConsumable)
+                            {
+                                InventoryManager.Instance.UseItem(currentIndex);
+                                itemDetailPanel.SetActive(false);
+                                currentState = InventoryState.InventoryOnly;
+                            }
+                            else
+                            {
+                                Debug.Log("Este objeto no es consumible.");
+                            }
+                        }
+                        else
+                        {
+                            Debug.LogWarning("Índice inválido al intentar consumir ítem.");
+                        }
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.Q)) // Equipar ítem
+                    {
+                        if (IsValidIndex(currentIndex))
+                        {
+                            InventoryItem item = InventoryManager.Instance.playerInventory[currentIndex];
+                            if (item.itemType == ItemType.Weapon)
+                            {
+                                EquipmentManager.Instance.Equip(item);
+                                itemDetailPanel.SetActive(false);
+                                currentState = InventoryState.InventoryOnly;
+                            }
+                            else
+                            {
+                                Debug.Log("Este objeto no es un arma.");
+                            }
+                        }
+                    }
+
                     if (Input.GetKeyDown(KeyCode.Escape))
                     {
                         itemDetailPanel.SetActive(false);
                         currentState = InventoryState.InventoryOnly;
                     }
 
-                    if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.E))
-                    {
-                        if (IsValidIndex(currentIndex))
-                        {
-                            InventoryManager.Instance.UseItem(currentIndex);
-                            itemDetailPanel.SetActive(false);
-                            currentState = InventoryState.InventoryOnly;
-                        }
-                    }
-
-                    if (Input.GetKeyDown(KeyCode.Q))
-                    {
-                        if (IsValidIndex(currentIndex))
-                        {
-                            InventoryItem item = InventoryManager.Instance.playerInventory[currentIndex];
-                            EquipmentManager.Instance.Equip(item);
-                            Debug.Log("Equipado: " + item.itemName);
-
-                            itemDetailPanel.SetActive(false);
-                            currentState = InventoryState.InventoryOnly;
-                        }
-                    }
                     break;
             }
         }
@@ -152,10 +174,7 @@ namespace Eco
         {
             inventoryGrid.gameObject.SetActive(false);
             itemDetailPanel.SetActive(false);
-            currentState = InventoryState.InventoryOnly;
             Time.timeScale = 1f;
-
-            InventoryManager.Instance.uiInventory.UpdateInventoryDisplay(InventoryManager.Instance.playerInventory);
 
             GameObject hud = GameObject.Find("HUD");
             if (hud != null) hud.SetActive(true);

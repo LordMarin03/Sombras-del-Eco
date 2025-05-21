@@ -36,14 +36,13 @@ namespace Eco
             {
                 inventoryPanel.SetActive(isOpen);
 
-             
+
                 if (isOpen)
                 {
                     var inv = InventoryManager.Instance;
                     if (inv != null && inv.uiInventory != null)
                     {
                         inv.uiInventory.UpdateInventoryDisplay(inv.playerInventory);
-                        Debug.Log("INVENTARIO ACTUALIZADO. Cantidad de ítems: " + inv.playerInventory.Count);
                     }
                 }
             }

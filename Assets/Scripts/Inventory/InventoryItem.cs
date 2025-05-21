@@ -19,5 +19,8 @@ namespace Eco
         public Sprite largeIcon;
         public bool isConsumable;
         public ItemType itemType;
+
+        [HideInInspector]
+        public int stackCount = 0;
     }
 }
