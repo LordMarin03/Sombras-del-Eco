@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Eco;
-using Exo;
 
 namespace Eco
 {

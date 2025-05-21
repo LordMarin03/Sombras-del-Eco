@@ -23,11 +23,7 @@ namespace Eco
                 {
                     itemIcon.sprite = items[i].icon;
                     itemIcon.enabled = true;
-
-                    nameText.text = items[i].stackCount > 1 ?
-                        items[i].itemName + " x" + items[i].stackCount :
-                        items[i].itemName + " x" + items[i].stackCount;
-
+                    nameText.text = "x" + items[i].stackCount;
                     nameText.enabled = true;
                 }
                 else

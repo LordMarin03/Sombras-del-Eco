@@ -73,8 +73,24 @@ namespace Eco
                 if (leftItem != null && leftItem.stackCount > 0)
                 {
                     Debug.Log("Te curas usando una Lágrima del Eco.");
+
+                    // Consumir ítem
                     leftItem.stackCount--;
                     UpdateLeftSlotCount();
+
+                    // Curar al jugador
+                    GameObject jugador = GameObject.FindGameObjectWithTag("Player");
+                    if (jugador != null)
+                    {
+                        var controller = jugador.GetComponent<Eco.PlayerCharacterController>();
+                        if (controller != null)
+                        {
+                            controller.Curar(50);
+                        }
+                    }
+
+                    // Reproducir sonido de curación
+                    AudioManager.Instance?.ReproducirSonidoCuracion();
                 }
             }
         }

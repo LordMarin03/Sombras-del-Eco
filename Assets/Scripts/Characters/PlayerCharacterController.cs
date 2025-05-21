@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Exo
+namespace Eco
 {
     public class PlayerCharacterController : BaseCharacterController
     {
@@ -33,12 +33,12 @@ namespace Exo
             m_PreviousQueriesStartInColliders = Physics2D.queriesStartInColliders;
             currentHealth = maxHealth;
         }
+
         protected void Start()
         {
             currentHealth = maxHealth;
             healthBar.SetMaxHealth(maxHealth);
         }
-
 
         public void TakeDamage(int damage)
         {
@@ -52,11 +52,24 @@ namespace Exo
             }
         }
 
-
         private void Die()
         {
             Debug.Log("Jugador ha muerto");
             // Aquí puedes agregar lógica de respawn o reinicio de nivel
+        }
+
+        public void CurarAlMaximo()
+        {
+            currentHealth = maxHealth;
+            healthBar.SetHealth(currentHealth);
+            Debug.Log("Vida restaurada al máximo.");
+        }
+        public void Curar(int cantidad)
+        {
+            currentHealth += cantidad;
+            currentHealth = Mathf.Min(currentHealth, maxHealth);
+            healthBar.SetHealth(currentHealth);
+            Debug.Log($"Has recuperado {cantidad} de vida. Vida actual: {currentHealth}");
         }
 
         protected void Update()
@@ -185,7 +198,10 @@ namespace Exo
             }
             else
             {
-                float inAirGravity = m_JumpWasCanceled && m_Velocity.y > 0 ? m_BaseStats.FallAcceleration * m_BaseStats.JumpEndEarlyGravityModifier : m_BaseStats.FallAcceleration;
+                float inAirGravity = m_JumpWasCanceled && m_Velocity.y > 0
+                    ? m_BaseStats.FallAcceleration * m_BaseStats.JumpEndEarlyGravityModifier
+                    : m_BaseStats.FallAcceleration;
+
                 m_Velocity.y = Mathf.Lerp(m_Velocity.y, -m_BaseStats.MaxFallSpeed, inAirGravity * aFixedDeltaTime);
             }
         }
