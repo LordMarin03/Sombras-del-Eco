@@ -10,11 +10,12 @@ namespace Eco
         Special
     }
 
-    [System.Serializable]
-    public class InventoryItem
+    [CreateAssetMenu(fileName = "NewInventoryItem", menuName = "Eco/Inventory Item")]
+    public class InventoryItem : ScriptableObject
     {
         public string itemName;
         public Sprite icon;
+        [TextArea]
         public string description;
         public Sprite largeIcon;
         public bool isConsumable;
