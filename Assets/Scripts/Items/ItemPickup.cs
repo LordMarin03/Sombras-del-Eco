@@ -10,14 +10,10 @@ namespace Eco
         {
             if (other.CompareTag("Player") && itemToAdd != null)
             {
-                if (InventoryManager.Instance != null)
+                PlayerCharacterController player = other.GetComponent<PlayerCharacterController>();
+                if (player != null)
                 {
-                    InventoryManager.Instance.AddItem(itemToAdd);
-                    Destroy(gameObject);
-                }
-                else
-                {
-                    Debug.LogWarning("No se encontró InventoryManager en escena.");
+                    player.RecogerItemConAnimacion(itemToAdd, gameObject);
                 }
             }
         }

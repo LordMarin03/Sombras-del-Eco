@@ -94,6 +94,23 @@ namespace Eco
         [SerializeField]
         protected float m_JumpBuffer = 0.2f;
         public float JumpBuffer { get => m_JumpBuffer; }
+
+        [Header("MODIFICADORES DE MOVIMIENTO")]
+
+        [Tooltip("Multiplicador de velocidad actual (útil para elixir, protección, etc.)")]
+        [SerializeField, Range(0.1f, 1f)]
+        private float speedMultiplier = 1f;
+        public float SpeedMultiplier => speedMultiplier;
+
+        public void SetSpeedMultiplier(float mult)
+        {
+            speedMultiplier = Mathf.Clamp(mult, 0.1f, 1f);
+        }
+
+        public void ResetSpeedMultiplier()
+        {
+            speedMultiplier = 1f;
+        }
     }
 }
 

@@ -5,28 +5,24 @@ namespace Eco
 {
     public class CombatManager : MonoBehaviour
     {
+        public static CombatManager Instance;
+
         [SerializeField] private LayerMask enemyLayer;
         [SerializeField] private float attackRange = 3.0f;
-
-        [SerializeField] private int attackDamage = 10;
         [SerializeField] private Transform attackPoint;
 
-        private PlayerCharacterController player;
-
-        private void Start()
+        private void Awake()
         {
-            player = FindObjectOfType<PlayerCharacterController>();
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(gameObject);
         }
 
-        private void Update()
-        {
-            if (Input.GetButtonDown("Fire1")) // Botón de ataque
-            {
-                PerformAttack();
-            }
-        }
-
-        private void PerformAttack()
+        /// <summary>
+        /// Llamado por el jugador para ejecutar un ataque con daño personalizado.
+        /// </summary>
+        public void RealizarAtaque(int damage)
         {
             Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
 
@@ -39,12 +35,10 @@ namespace Eco
                 if (enemy.TryGetComponent<EnemyController>(out EnemyController enemyController))
                 {
                     Debug.Log("Golpeando a: " + enemy.name);
-                    enemyController.TakeDamage(attackDamage);
+                    enemyController.TakeDamage(damage);
                 }
             }
         }
-
-
 
         private void OnDrawGizmosSelected()
         {
