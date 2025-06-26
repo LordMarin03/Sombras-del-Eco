@@ -16,8 +16,9 @@ namespace Eco
 
         public void PlayGame()
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
+            SceneManager.LoadScene("IntroCinematica");
         }
+
 
         public void QuitGame()
         {

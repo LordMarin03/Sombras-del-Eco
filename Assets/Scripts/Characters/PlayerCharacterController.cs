@@ -40,6 +40,7 @@ namespace Eco
         private bool m_IsHanging = false;
         private bool m_IsRolling = false;
         private bool m_IsInvulnerable = false;
+        private bool m_IsResting = false;
 
         [SerializeField] private float attack1Duration = 0.4f;
         [SerializeField] private float attack2Duration = 0.8f;
@@ -72,12 +73,15 @@ namespace Eco
 
         protected void Update()
         {
+            if (m_IsResting) return; 
             GetInput();
             if (m_JumpBufferTimer.StopIfElapsed()) m_WantsToJump = false;
         }
 
         protected void FixedUpdate()
         {
+            if (m_IsResting) return;
+
             float fixedDeltaTime = Services.GetService<MainManager>().FixedDeltaTime;
             CheckCollisions();
             HandleJump();
@@ -90,6 +94,8 @@ namespace Eco
 
         protected void GetInput()
         {
+            if (m_IsResting) return; 
+
             InputManager inputManager = Services.GetService<InputManager>();
             if (inputManager != null)
             {
@@ -124,7 +130,7 @@ namespace Eco
                     StartCoroutine(LimitarMovimiento(1.5f));
                 }
 
-                if (Input.GetKeyDown(KeyCode.LeftShift) && !m_IsRolling && !m_IsAttacking && m_Grounded)
+                if (Input.GetKeyDown(KeyCode.LeftShift) && !m_IsAttacking && m_Grounded)
                     StartCoroutine(RealizarEsquiva());
 
                 if (m_IsHanging && Input.GetKeyDown(KeyCode.S))
@@ -137,7 +143,7 @@ namespace Eco
 
         protected void HandleDirection(float aFixedDeltaTime)
         {
-            if (m_IsAttacking || m_IsHanging || m_IsRolling) return;
+            if (m_IsAttacking || m_IsHanging || m_IsResting) return;
 
             if (m_HorizontalInput != 0)
             {
@@ -164,12 +170,16 @@ namespace Eco
             }
         }
 
-        protected void Jump(float jumpPower)
+        protected void Jump(float aJumpPower)
         {
-            m_Velocity.y = jumpPower;
+            m_Velocity.y = aJumpPower;
             m_WantsToJump = false;
             m_Grounded = false;
+
+            // Activar la animación
+            m_Animator.SetTrigger("Jump");
         }
+
 
         protected void HandleGravity(float deltaTime)
         {
@@ -225,12 +235,17 @@ namespace Eco
         private IEnumerator PerformAttack(string triggerName, float duration, int damage)
         {
             m_IsAttacking = true;
+
             m_Animator.SetTrigger(triggerName);
+
             if (CombatManager.Instance != null)
                 CombatManager.Instance.RealizarAtaque(damage);
-            yield return new WaitForSeconds(duration);
+
+            yield return new WaitForSeconds(duration); // Espera el tiempo completo de la animación
+
             m_IsAttacking = false;
         }
+
 
         private IEnumerator LimitarMovimiento(float duration)
         {
@@ -250,20 +265,41 @@ namespace Eco
 
         private IEnumerator RealizarEsquiva()
         {
-            m_IsRolling = true;
-            m_IsAttacking = true;
+            m_IsAttacking = true;       // Bloquea otras acciones
             m_IsInvulnerable = true;
+
             m_Animator.SetTrigger("Roll");
 
-            float direccion = Mathf.Sign(transform.localScale.x);
+            float direccion = Mathf.Sign(spriteRoot.localScale.x); // Usamos la dirección del sprite
             m_RigidBody.velocity = new Vector2(direccion * rollSpeed, m_RigidBody.velocity.y);
 
             yield return new WaitForSeconds(rollDuration);
 
-            m_IsRolling = false;
             m_IsAttacking = false;
             m_IsInvulnerable = false;
         }
+
+
+
+
+        public void StartRest()
+        {
+            if (m_IsResting) return;
+
+            m_IsResting = true;
+            m_Velocity = Vector2.zero;
+            m_Animator.SetTrigger("Rest");
+            StartCoroutine(FinalizarDescanso(2.5f));
+        }
+
+        private IEnumerator FinalizarDescanso(float duracion)
+        {
+            m_IsAttacking = true;
+            yield return new WaitForSeconds(duracion);
+            m_IsResting = false;
+            m_IsAttacking = false;
+        }
+
 
         private void UpdateAnimator()
         {
@@ -272,6 +308,9 @@ namespace Eco
             m_Animator.SetBool("IsRunning", Mathf.Abs(m_HorizontalInput) > 0.1f);
             m_Animator.SetBool("IsGrounded", m_Grounded);
         }
+
+
+
 
 
         private void UpdateFacingDirection()

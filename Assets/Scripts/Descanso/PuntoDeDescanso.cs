@@ -11,34 +11,25 @@ namespace Eco
         public GameObject textoInteraccion;
 
         private GameObject jugador;
-        private Animator playerAnimator;
         private PlayerCharacterController playerController;
 
         void Update()
         {
             if (jugadorCerca && Input.GetKeyDown(KeyCode.E))
             {
-                if (playerAnimator != null)
-                    playerAnimator.SetTrigger("Rest");
-
                 if (playerController != null)
-                    playerController.BloquearMovimientoTemporal(2.5f); // tiempo de animación
-
-                if (jugador != null)
                 {
-                    var controller = jugador.GetComponent<Eco.PlayerCharacterController>();
-                    if (controller != null)
-                        controller.CurarAlMaximo();
+                    playerController.StartRest();
+                    playerController.CurarAlMaximo();
                 }
 
-                InventoryManager.Instance.RestaurarMedicina();
+                InventoryManager.Instance?.RestaurarMedicina();
                 Debug.Log("Has descansado en el Obelisco del Recuerdo.");
 
                 PlayerPrefs.SetString("LastCheckpointScene", UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
                 PlayerPrefs.Save();
 
-
-                UIManager.Instance.AbrirMenuObelisco();
+                UIManager.Instance?.AbrirMenuObelisco();
 
                 if (textoInteraccion != null)
                     textoInteraccion.SetActive(false);
@@ -51,8 +42,6 @@ namespace Eco
             {
                 jugadorCerca = true;
                 jugador = other.gameObject;
-
-                playerAnimator = jugador.GetComponent<Animator>();
                 playerController = jugador.GetComponent<PlayerCharacterController>();
 
                 if (textoInteraccion != null)
